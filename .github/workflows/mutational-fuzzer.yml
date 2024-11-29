@@ -1,0 +1,25 @@
+name: Run Mutational Fuzzer
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  fuzz:
+    runs-on: ubuntu-latest
+    environment: default
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Run Mutational Fuzzer
+        run: java Fuzzer.java "./html_parser_linux_x86_64"
